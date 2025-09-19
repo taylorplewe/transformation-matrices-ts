@@ -27,7 +27,12 @@ const canvasEl = document.createElement("canvas");
 canvasEl.width = canvasSize;
 canvasEl.height = canvasSize;
 canvasEl.style.width = `${canvasSize}px`;
-document.body.appendChild(canvasEl);
+
+const mountElOrNull = document.querySelector("#canvas-mount");
+if (mountElOrNull === null) throw new Error("Could not get element with ID 'canvas-mount'");
+const mountEl: Element = mountElOrNull;
+mountEl.appendChild(canvasEl);
+
 const ctxOrNull = canvasEl.getContext("2d");
 if (ctxOrNull === null) throw new Error("Could not get canvas context");
 const ctx: CanvasRenderingContext2D = ctxOrNull;

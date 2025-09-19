@@ -2,11 +2,10 @@
 <html>
 
 <head>
-  <title>transformation matrices</title>
+  <title>transformation matrices | Taylor Plewe</title>
   <style>
     body {
       background-color: #333;
-      color: #ddd;
 
       display: flex;
       flex-direction: column;
@@ -18,8 +17,11 @@
 
       font-family: Helvetica, sans-serif;
     }
+    body, a {
+      color: #ddd;
+    }
     table {
-      border-spacing: 0;
+      border-collapse: collapse;
     }
     td {
       padding: 2px 6px;
@@ -33,6 +35,10 @@
       aspect-ratio: 1;
       border: 1px solid #888;
       background-color: transparent;
+    }
+    footer {
+      font-style: italic;
+      opacity: 0.5;
     }
   </style>
 </head>
@@ -56,6 +62,10 @@
       <td>rotate right</td>
     </tr>
   </table>
+
+  <div id="canvas-mount"></div>
+
+  <footer>2025 Taylor Plewe | <a href="https://github.com/taylorplewe/transformation-matrices-ts" target="_blank">view source</a></footer>
 
   <script src="main.js"></script>
 
