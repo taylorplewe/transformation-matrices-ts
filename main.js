@@ -63,8 +63,8 @@ const update = () => {
 };
 const render = () => {
     ctx.clearRect(0, 0, canvasSize, canvasSize);
-    ctx.strokeStyle = "black";
-    ctx.fillStyle = "lightgray";
+    ctx.strokeStyle = "#ddd";
+    ctx.fillStyle = "#444";
     ctx.beginPath();
     for (const point of points) {
         ctx.lineTo(point.x * canvasSize, point.y * canvasSize);

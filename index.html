@@ -4,19 +4,58 @@
 <head>
   <title>transformation matrices</title>
   <style>
+    body {
+      background-color: #333;
+      color: #ddd;
+
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      height: 100vh;
+
+      font-family: Helvetica, sans-serif;
+    }
+    table {
+      border-spacing: 0;
+    }
+    td {
+      padding: 2px 6px;
+      &:first-child {
+        text-align: right;
+        font-weight: bold;
+        border-right: 1px solid #888;
+      }
+    }
     canvas {
       aspect-ratio: 1;
-      border: 1px solid black;
+      border: 1px solid #888;
+      background-color: transparent;
     }
   </style>
 </head>
 
 <body>
-  <p>w = scale up<br />
-    s = scale down<br />
-    a = rotate left<br />
-    d = rotate right</p>
-
+  <table>
+    <tr>
+      <td>w</td>
+      <td>scale up</td>
+    </tr>
+    <tr>
+      <td>s</td>
+      <td>scale down</td>
+    </tr>
+    <tr>
+      <td>a</td>
+      <td>rotate left</td>
+    </tr>
+    <tr>
+      <td>d</td>
+      <td>rotate right</td>
+    </tr>
+  </table>
 
   <script src="main.js"></script>
 
