@@ -4,12 +4,6 @@ interface Point {
   y: number;
 }
 type Matrix = number[][];
-interface Keys {
-  w: boolean;
-  a: boolean;
-  s: boolean;
-  d: boolean;
-}
 
 // state
 const org: Point = { x: 0.5, y: 0.5 };
@@ -19,7 +13,7 @@ let points: Point[] = [
   { x: 0.5, y: 0.75 },
   { x: 0.75, y: 0.5 },
 ];
-const keysDown: Keys = { w: false, a: false, s: false, d: false };
+const keysDown: boolean[] = new Array(256).fill(false);
 
 // init
 const canvasSize = 600;
@@ -29,7 +23,8 @@ canvasEl.height = canvasSize;
 canvasEl.style.width = `${canvasSize}px`;
 
 const mountElOrNull = document.querySelector("#canvas-mount");
-if (mountElOrNull === null) throw new Error("Could not get element with ID 'canvas-mount'");
+if (mountElOrNull === null)
+  throw new Error("Could not get element with ID 'canvas-mount'");
 const mountEl: Element = mountElOrNull;
 mountEl.appendChild(canvasEl);
 
@@ -39,20 +34,18 @@ const ctx: CanvasRenderingContext2D = ctxOrNull;
 
 // helpers
 const getScaleMatrix = (scale: number) => [
-  [scale, 0, 0],
-  [0, scale, 0],
-  [0, 0, 1],
+  [scale, 0],
+  [0, scale],
 ];
 const getRotationMatrix = (radians: number) => [
-  [Math.cos(radians), -Math.sin(radians), 0],
-  [Math.sin(radians), Math.cos(radians), 0],
-  [0, 0, 1],
+  [Math.cos(radians), -Math.sin(radians)],
+  [Math.sin(radians), Math.cos(radians)],
 ];
 const multiplyMatrices = (m1: Matrix, m2: Matrix): Matrix => {
-  const result: Matrix = new Array(3).fill(0).map(() => new Array(3).fill(0));
-  for (let row = 0; row < 3; row++) {
-    for (let col = 0; col < 3; col++) {
-      for (let i = 0; i < 3; i++) {
+  const result: Matrix = new Array(2).fill(0).map(() => new Array(2).fill(0));
+  for (let row = 0; row < 2; row++) {
+    for (let col = 0; col < 2; col++) {
+      for (let i = 0; i < 2; i++) {
         result[row][col] += m1[row][i] * m2[i][col];
       }
     }
@@ -68,17 +61,20 @@ const transformPoints = (
   for (const point of points) {
     const localX = point.x - origin.x;
     const localY = point.y - origin.y;
-    const x = matrix[0][0] * localX + matrix[0][1] * localY + matrix[0][2];
-    const y = matrix[1][0] * localX + matrix[1][1] * localY + matrix[1][2];
+    const x = matrix[0][0] * localX + matrix[0][1] * localY;
+    const y = matrix[1][0] * localX + matrix[1][1] * localY;
     transformedPoints.push({ x: x + origin.x, y: y + origin.y });
   }
   return transformedPoints;
 };
+const setKeyDown = (key: string) => (keysDown[key.charCodeAt(0)] = true);
+const setKeyUp = (key: string) => (keysDown[key.charCodeAt(0)] = false);
+const getKey = (key: string): boolean => keysDown[key.charCodeAt(0)];
 
 // frame code
 const update = () => {
-  const scale = keysDown.w ? 1.05 : keysDown.s ? 0.95 : 1.0;
-  const radians = keysDown.a ? -0.05 : keysDown.d ? 0.05 : 0.0;
+  const scale = getKey("w") ? 1.05 : getKey("s") ? 0.95 : 1.0;
+  const radians = getKey("a") ? -0.05 : getKey("d") ? 0.05 : 0.0;
   const scaleMatrix = getScaleMatrix(scale);
   const rotationMatrix = getRotationMatrix(radians);
   const m = multiplyMatrices(scaleMatrix, rotationMatrix);
@@ -106,35 +102,5 @@ const forever = () => {
 requestAnimationFrame(forever);
 
 // events
-window.addEventListener("keydown", (e: KeyboardEvent) => {
-  switch (e.key) {
-    case "w":
-      keysDown.w = true;
-      break;
-    case "s":
-      keysDown.s = true;
-      break;
-    case "a":
-      keysDown.a = true;
-      break;
-    case "d":
-      keysDown.d = true;
-      break;
-  }
-});
-window.addEventListener("keyup", (e: KeyboardEvent) => {
-  switch (e.key) {
-    case "w":
-      keysDown.w = false;
-      break;
-    case "s":
-      keysDown.s = false;
-      break;
-    case "a":
-      keysDown.a = false;
-      break;
-    case "d":
-      keysDown.d = false;
-      break;
-  }
-});
+window.addEventListener("keydown", (e: KeyboardEvent) => setKeyDown(e.key));
+window.addEventListener("keyup", (e: KeyboardEvent) => setKeyUp(e.key));
