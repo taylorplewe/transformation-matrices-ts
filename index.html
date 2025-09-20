@@ -2,21 +2,70 @@
 <html>
 
 <head>
-  <title>transformation matrices</title>
+  <title>transformation matrices | Taylor Plewe</title>
   <style>
+    body {
+      background-color: #333;
+
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      height: 100vh;
+
+      font-family: Helvetica, sans-serif;
+    }
+    body, a {
+      color: #ddd;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    td {
+      padding: 2px 6px;
+      &:first-child {
+        text-align: right;
+        font-weight: bold;
+        border-right: 1px solid #888;
+      }
+    }
     canvas {
       aspect-ratio: 1;
-      border: 1px solid black;
+      border: 1px solid #888;
+      background-color: transparent;
+    }
+    footer {
+      font-style: italic;
+      opacity: 0.5;
     }
   </style>
 </head>
 
 <body>
-  <p>w = scale up<br />
-    s = scale down<br />
-    a = rotate left<br />
-    d = rotate right</p>
+  <table>
+    <tr>
+      <td>w</td>
+      <td>scale up</td>
+    </tr>
+    <tr>
+      <td>s</td>
+      <td>scale down</td>
+    </tr>
+    <tr>
+      <td>a</td>
+      <td>rotate left</td>
+    </tr>
+    <tr>
+      <td>d</td>
+      <td>rotate right</td>
+    </tr>
+  </table>
 
+  <div id="canvas-mount"></div>
+
+  <footer>2025 Taylor Plewe | <a href="https://github.com/taylorplewe/transformation-matrices-ts" target="_blank">view source</a></footer>
 
   <script src="main.js"></script>
 
