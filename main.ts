@@ -56,17 +56,14 @@ const transformPoints = (
   points: Point[],
   origin: Point,
   matrix: Matrix,
-): Point[] => {
-  const transformedPoints: Point[] = [];
-  for (const point of points) {
+): Point[] =>
+  points.map((point) => {
     const localX = point.x - origin.x;
     const localY = point.y - origin.y;
     const x = matrix[0][0] * localX + matrix[0][1] * localY;
     const y = matrix[1][0] * localX + matrix[1][1] * localY;
-    transformedPoints.push({ x: x + origin.x, y: y + origin.y });
-  }
-  return transformedPoints;
-};
+    return { x: x + origin.x, y: y + origin.y };
+  });
 const setKeyDown = (key: string) => (keysDown[key.charCodeAt(0)] = true);
 const setKeyUp = (key: string) => (keysDown[key.charCodeAt(0)] = false);
 const getKey = (key: string): boolean => keysDown[key.charCodeAt(0)];
